@@ -3,6 +3,12 @@ title: "Documentation"
 description: "Manuals, tutorials and papers about Java Modelling Tools."
 ---
 
+## API Reference
+
+- [Javadoc](/javadoc/)  
+  The Java API documentation of all JMT modules, generated automatically from
+  the source code.
+
 ## Manuals & Books
 
 - Java Modelling Tools - *User manual*  
