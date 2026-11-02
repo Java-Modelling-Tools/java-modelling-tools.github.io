@@ -308,7 +308,15 @@ h1, h2, h3, h4 { line-height: 1.25; color: var(--teal-900); }
   border-radius: 6px;
 }
 .badge-row a:hover { opacity: 0.85; }
-.badge-row img { height: 22px; width: auto; }
+.badge-row img { height: 20px; width: auto; }
+
+/* SourceForge award badges are square SVG icons; render them larger. */
+.badge-row.sf-badges { gap: 0.6rem; }
+.badge-row.sf-badges img {
+  height: 44px;
+  width: 44px;
+  border-radius: 9px;
+}
 
 /* ---------- Release statistics ---------- */
 
@@ -355,6 +363,66 @@ h1, h2, h3, h4 { line-height: 1.25; color: var(--teal-900); }
   margin: 1rem 0 0;
   font-size: 0.85rem;
   color: var(--ink-soft);
+}
+
+.stats-panels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.stats-panel {
+  padding: 1rem 1.1rem;
+  background: var(--teal-50);
+  border: 1px solid var(--teal-100);
+  border-radius: var(--radius);
+}
+
+.stats-panel h3 {
+  margin: 0 0 0.8rem;
+  font-size: 0.95rem;
+  color: var(--teal-900);
+}
+.stats-panel h3 small { font-weight: 400; color: var(--ink-soft); }
+
+.bars { display: flex; flex-direction: column; gap: 0.45rem; }
+
+.bar-row {
+  display: grid;
+  grid-template-columns: 64px 1fr 56px;
+  gap: 0.55rem;
+  align-items: center;
+  font-size: 0.82rem;
+}
+
+.bar-label {
+  color: var(--ink-soft);
+  text-align: right;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bar-track {
+  display: block;
+  height: 10px;
+  background: var(--teal-100);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--teal-500), var(--teal-600));
+  border-radius: 5px;
+}
+
+.bar-value {
+  text-align: right;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
 }
 
 /* ---------- Footer ---------- */

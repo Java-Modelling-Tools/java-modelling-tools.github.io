@@ -43,9 +43,11 @@ hugo --minify --gc   # production build into public/
   while the `jmt` repository is private and light up automatically once it is
   public.
 - **Download statistics** (`layouts/partials/release-stats.html`): Hugo fetches
-  download counts from the SourceForge stats JSON API at *build time* and
-  renders all-time, last-30-days and current-release totals plus the top OS
-  and country. If the API is unreachable the build still succeeds and a note
+  download counts from the SourceForge
+  [Download Stats API](https://sourceforge.net/p/forge/documentation/Download%20Stats%20API/)
+  at *build time* and renders all-time, last-30-days (`period=daily`) and
+  current-release totals, plus a last-12-months chart and top OS/country
+  breakdowns. If the API is unreachable the build still succeeds and a note
   is shown instead. When a new release ships, update `params.releaseStats`
   (`version`, `folder`, `releaseSince`) in `hugo.toml`.
 
