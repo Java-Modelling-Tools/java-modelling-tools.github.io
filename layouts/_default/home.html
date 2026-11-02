@@ -1,0 +1,38 @@
+{{ define "main" }}
+<div class="hero">
+  <div class="hero-text">
+    <h1>Java Modelling Tools</h1>
+    <p class="tagline">A free open-source suite for performance evaluation, capacity
+    planning and modelling of computer and communication systems.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="{{ relURL "download" }}">Download JMT</a>
+      <a class="btn" href="{{ .Site.Params.githubRepo }}">Source code</a>
+      <a class="btn" href="{{ relURL "documentation" }}">Documentation</a>
+    </div>
+  </div>
+  <div class="hero-image">
+    <img src="{{ relURL "img/product-screenshot.png" }}" alt="JSIMgraph main window with an open queueing network model" width="967" height="700">
+  </div>
+</div>
+
+<div class="container">
+  {{ .Content }}
+
+  {{ with .Params.tools }}
+  <section class="tool-cards">
+    <h2>The JMT Suite</h2>
+    <div class="cards">
+      {{ range . }}
+      <a class="card" href="{{ .url }}">
+        <img src="{{ .thumb }}" alt="{{ .alt }}" loading="lazy">
+        <span class="card-body">
+          <strong>{{ .name }}</strong>
+          <span>{{ .blurb }}</span>
+        </span>
+      </a>
+      {{ end }}
+    </div>
+  </section>
+  {{ end }}
+</div>
+{{ end }}

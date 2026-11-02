@@ -1,0 +1,61 @@
+# Site configuration for https://java-modelling-tools.github.io/
+baseURL = 'https://java-modelling-tools.github.io/'
+title = 'Java Modelling Tools (JMT)'
+locale = 'en-US'
+
+enableRobotsTXT = true
+disableKinds = ['taxonomy', 'term', 'RSS']
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+[params]
+  description = 'Java Modelling Tools (JMT) is a free open-source suite of applications for performance evaluation, capacity planning and modelling of computer and communication systems.'
+  githubOrg = 'https://github.com/Java-Modelling-Tools'
+  githubRepo = 'https://github.com/Java-Modelling-Tools/jmt'
+
+[menu]
+[[menu.main]]
+  name = 'Home'
+  pageRef = '/'
+  weight = 1
+[[menu.main]]
+  name = 'Download'
+  pageRef = '/download'
+  weight = 2
+[[menu.main]]
+  name = 'Requirements'
+  pageRef = '/requirements'
+  weight = 3
+[[menu.main]]
+  name = 'JSIMgraph'
+  pageRef = '/tools/jsimgraph'
+  weight = 4
+[[menu.main]]
+  name = 'JSIMwiz'
+  pageRef = '/tools/jsimwiz'
+  weight = 5
+[[menu.main]]
+  name = 'JMVA'
+  pageRef = '/tools/jmva'
+  weight = 6
+[[menu.main]]
+  name = 'JABA'
+  pageRef = '/tools/jaba'
+  weight = 7
+[[menu.main]]
+  name = 'JWAT'
+  pageRef = '/tools/jwat'
+  weight = 8
+[[menu.main]]
+  name = 'JMCH'
+  pageRef = '/tools/jmch'
+  weight = 9
+[[menu.main]]
+  name = 'Documentation'
+  pageRef = '/documentation'
+  weight = 10
+[[menu.main]]
+  name = 'License'
+  pageRef = '/license'
+  weight = 11

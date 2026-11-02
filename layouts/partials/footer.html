@@ -1,0 +1,43 @@
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h2>About</h2>
+      <p>Java Modelling Tools (JMT) is a free open-source suite of applications for
+      performance evaluation, system modelling with analytical and simulation
+      techniques, capacity planning and workload characterization studies.
+      Released under the GPL license.</p>
+    </div>
+    <div class="footer-col">
+      <h2>Tools</h2>
+      <ul>
+        <li><a href="{{ relURL "tools/jsimgraph" }}">JSIMgraph</a></li>
+        <li><a href="{{ relURL "tools/jsimwiz" }}">JSIMwiz</a></li>
+        <li><a href="{{ relURL "tools/jmva" }}">JMVA</a></li>
+        <li><a href="{{ relURL "tools/jaba" }}">JABA</a></li>
+        <li><a href="{{ relURL "tools/jwat" }}">JWAT</a></li>
+        <li><a href="{{ relURL "tools/jmch" }}">JMCH</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h2>Community &amp; Development</h2>
+      <ul>
+        <!--
+          Point Help/Bugs/Features to GitHub Discussions and Issues once the
+          jmt repository is made public; the SourceForge links below keep
+          working in the meantime.
+        -->
+        <li><a href="https://sourceforge.net/p/jmt/discussion/" rel="noopener">Need help?</a></li>
+        <li><a href="https://sourceforge.net/p/jmt/bugs/" rel="noopener">Report a bug</a></li>
+        <li><a href="https://sourceforge.net/p/jmt/feature-requests/" rel="noopener">Request a feature</a></li>
+        <li><a href="https://lists.sourceforge.net/lists/listinfo/jmt-announce" rel="noopener">Release announcements (jmt-announce)</a></li>
+        <li><a href="{{ .Site.Params.githubOrg }}">GitHub organization</a></li>
+        <li><a href="{{ .Site.Params.githubRepo }}">Source code</a></li>
+        <li><a href="https://sourceforge.net/projects/jmt/" rel="noopener">Legacy SourceForge page</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>DEIB - Politecnico di Milano - Italy &middot; SPENCER Lab @ University of L'Aquila &middot; Coordinators: V. Cortellessa, G. Serazzi</p>
+    <p>&copy; {{ now.Format "2006" }} Java Modelling Tools contributors. Licensed under the <a href="{{ relURL "License.txt" }}">GNU GPL v2</a>.</p>
+  </div>
+</footer>

@@ -1,0 +1,28 @@
+{{ define "main" }}
+<article class="container page">
+  <header class="page-header">
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}<p class="page-description">{{ . }}</p>{{ end }}
+  </header>
+
+  <div class="page-content">
+    {{ .Content }}
+  </div>
+
+  {{ with .Params.screenshots }}
+  <section class="screenshots">
+    <h2>Screenshots</h2>
+    <div class="gallery">
+      {{ range . }}
+      <figure>
+        <a href="{{ .full }}" target="_blank" rel="noopener">
+          <img src="{{ .thumb }}" alt="{{ .caption }}" loading="lazy">
+          <figcaption>{{ .caption }}</figcaption>
+        </a>
+      </figure>
+      {{ end }}
+    </div>
+  </section>
+  {{ end }}
+</article>
+{{ end }}

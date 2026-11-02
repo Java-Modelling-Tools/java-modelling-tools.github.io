@@ -1,0 +1,28 @@
+{{ define "main" }}
+<article class="container page">
+  <header class="page-header">
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}<p class="page-description">{{ . }}</p>{{ end }}
+  </header>
+
+  <div class="page-content">
+    {{ .Content }}
+  </div>
+
+  {{ with .Params.tools }}
+  <section class="tool-cards">
+    <div class="cards">
+      {{ range . }}
+      <a class="card" href="{{ .url }}">
+        <img src="{{ .thumb }}" alt="{{ .alt }}" loading="lazy">
+        <span class="card-body">
+          <strong>{{ .name }}</strong>
+          <span>{{ .blurb }}</span>
+        </span>
+      </a>
+      {{ end }}
+    </div>
+  </section>
+  {{ end }}
+</article>
+{{ end }}
