@@ -9,6 +9,10 @@
     {{ .Content }}
   </div>
 
+  {{ if .Params.statsFull }}
+  {{ partial "download-stats.html" (dict "mode" "full") }}
+  {{ end }}
+
   {{ with .Params.screenshots }}
   <section class="screenshots">
     <h2>Screenshots</h2>

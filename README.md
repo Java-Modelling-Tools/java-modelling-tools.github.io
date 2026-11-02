@@ -42,14 +42,18 @@ hugo --minify --gc   # production build into public/
   `params.badges.enableGithub` in `hugo.toml`. They render "repo not found"
   while the `jmt` repository is private and light up automatically once it is
   public.
-- **Download statistics** (`layouts/partials/release-stats.html`): Hugo fetches
+- **Download statistics** (`layouts/partials/download-stats.html`): Hugo fetches
   download counts from the SourceForge
   [Download Stats API](https://sourceforge.net/p/forge/documentation/Download%20Stats%20API/)
-  at *build time* and renders all-time, last-30-days (`period=daily`) and
-  current-release totals, plus a last-12-months chart and top OS/country
-  breakdowns. If the API is unreachable the build still succeeds and a note
-  is shown instead. When a new release ships, update `params.releaseStats`
-  (`version`, `folder`, `releaseSince`) in `hugo.toml`.
+  at *build time*. The Download page embeds a compact summary
+  (`mode = "summary"`); the dedicated
+  [Statistics page](https://java-modelling-tools.github.io/statistics/)
+  (`content/statistics.md`, `mode = "full"`) shows everything the API offers:
+  all-time/last-30-days/release totals, downloads by year, the last 12 months,
+  every operating system, every country, and the OS-by-country matrix. If the
+  API is unreachable the build still succeeds and a note is shown instead.
+  When a new release ships, update `params.releaseStats` (`version`, `folder`,
+  `releaseSince`) in `hugo.toml`.
 
 ## Deployment
 

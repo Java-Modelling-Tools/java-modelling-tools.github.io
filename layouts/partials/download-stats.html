@@ -1,0 +1,261 @@
+{{/*
+  Download statistics fetched at build time from the SourceForge Download
+  Stats API (https://sourceforge.net/p/forge/documentation/Download%20Stats%20API/),
+  project id 163838.
+
+  Modes (passed via a dict when calling this partial):
+    mode = "summary"  compact cards + three panels (Download page)
+    mode = "full"     complete statistics page
+
+  The build never fails if the API is unreachable: a note is rendered instead.
+*/}}
+{{- $mode := .mode | default "summary" -}}
+{{- $cfg := site.Params.releaseStats -}}
+{{- $today := now.Format "2006-01-02" -}}
+{{- $d30Start := ((now).AddDate 0 0 -30).Format "2006-01-02" -}}
+{{- $allURL := printf "https://sourceforge.net/projects/jmt/files/stats/json?start_date=%s&end_date=%s" $cfg.since $today -}}
+{{- $d30URL := printf "https://sourceforge.net/projects/jmt/files/jmt/stats/json?start_date=%s&end_date=%s&period=daily" $d30Start $today -}}
+{{- $relURL := printf "https://sourceforge.net/projects/jmt/files/%s/stats/json?start_date=%s&end_date=%s" $cfg.folder $cfg.releaseSince $today -}}
+
+{{- $all := dict -}}
+{{- $d30 := dict -}}
+{{- $rel := dict -}}
+{{- $ok := false -}}
+
+{{- with try (resources.GetRemote $allURL) -}}
+  {{- with .Value -}}
+    {{- $all = .Content | transform.Unmarshal -}}
+    {{- $ok = true -}}
+  {{- end -}}
+{{- end -}}
+
+{{- with try (resources.GetRemote $d30URL) -}}
+  {{- with .Value -}}
+    {{- $d30 = .Content | transform.Unmarshal -}}
+  {{- end -}}
+{{- end -}}
+
+{{- with try (resources.GetRemote $relURL) -}}
+  {{- with .Value -}}
+    {{- $rel = .Content | transform.Unmarshal -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $last30 := 0 -}}
+{{- with $d30.downloads -}}
+  {{- range . -}}
+    {{- $last30 = add $last30 (index . 1) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $months := slice -}}
+{{- $monthMax := 0 -}}
+{{- with $all.downloads -}}
+  {{- $months = last 12 . -}}
+  {{- range $months -}}
+    {{- if gt (index . 1) $monthMax }}{{ $monthMax = index . 1 }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $osTotal := 0 -}}
+{{- with $all.oses -}}
+  {{- range . -}}
+    {{- $osTotal = add $osTotal (index . 1) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $countryTotal := 0 -}}
+{{- with $all.countries -}}
+  {{- range . -}}
+    {{- $countryTotal = add $countryTotal (index . 1) -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $yearly := slice -}}
+{{- $yearMax := 0 -}}
+{{- $curYear := "" -}}
+{{- $curSum := 0 -}}
+{{- with $all.downloads -}}
+  {{- range . -}}
+    {{- $y := substr (index . 0) 0 4 -}}
+    {{- $c := index . 1 -}}
+    {{- if eq $curYear $y -}}
+      {{- $curSum = add $curSum $c -}}
+    {{- else -}}
+      {{- if ne $curYear "" -}}
+        {{- $yearly = append $yearly (slice (dict "year" $curYear "sum" $curSum)) -}}
+        {{- if gt $curSum $yearMax }}{{ $yearMax = $curSum }}{{ end -}}
+      {{- end -}}
+      {{- $curYear = $y -}}
+      {{- $curSum = $c -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if ne $curYear "" -}}
+    {{- $yearly = append $yearly (slice (dict "year" $curYear "sum" $curSum)) -}}
+    {{- if gt $curSum $yearMax }}{{ $yearMax = $curSum }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+
+<section class="release-stats{{ if eq $mode "full" }} stats-full{{ end }}">
+  {{ if eq $mode "full" }}
+  <h2>Overview</h2>
+  {{ else }}
+  <h2>Download statistics</h2>
+  {{ end }}
+
+  {{ if $ok }}
+
+  <div class="stats-grid">
+    <div class="stat">
+      <strong>{{ lang.FormatNumber 0 $all.total }}</strong>
+      <span>all-time downloads <small>(since 2006)</small></span>
+    </div>
+    <div class="stat">
+      <strong>{{ lang.FormatNumber 0 $last30 }}</strong>
+      <span>downloads in the last 30 days</span>
+    </div>
+    <div class="stat">
+      <strong>{{ with $rel }}{{ with .total }}{{ lang.FormatNumber 0 . }}{{ else }}0{{ end }}{{ else }}n/a{{ end }}</strong>
+      <span>downloads of JMT {{ $cfg.version }}</span>
+    </div>
+    <div class="stat">
+      <strong>{{ with $all.summaries.os }}{{ .top }} {{ .percent }}%{{ end }}</strong>
+      <span>top operating system <small>(since 2010)</small></span>
+    </div>
+    <div class="stat">
+      <strong>{{ with $all.summaries.geo }}{{ .top }} {{ .percent }}%{{ end }}</strong>
+      <span>top country <small>(since 2010)</small></span>
+    </div>
+  </div>
+
+  {{ if eq $mode "full" }}
+  <h2>Downloads by year</h2>
+  <div class="stats-panel">
+    <div class="bars">
+      {{ range $yearly | collections.Reverse }}
+      {{- $v := .sum -}}
+      {{- $pct := 0 -}}
+      {{- if gt $yearMax 0 }}{{ $pct = mul 100 (div (float $v) (float $yearMax)) }}{{ end -}}
+      <div class="bar-row">
+        <span class="bar-label">{{ .year }}</span>
+        <span class="bar-track"><span class="bar-fill" style="width: {{ printf "%.1f" $pct }}%"></span></span>
+        <span class="bar-value">{{ lang.FormatNumber 0 $v }}</span>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+  {{ end }}
+
+  <h2>Downloads in the last 12 months</h2>
+  <div class="stats-panel">
+    <div class="bars">
+      {{ range $months }}
+      {{- $v := index . 1 -}}
+      {{- $pct := 0 -}}
+      {{- if gt $monthMax 0 }}{{ $pct = mul 100 (div (float $v) (float $monthMax)) }}{{ end -}}
+      <div class="bar-row">
+        <span class="bar-label">{{ substr (index . 0) 2 5 }}</span>
+        <span class="bar-track"><span class="bar-fill" style="width: {{ printf "%.1f" $pct }}%"></span></span>
+        <span class="bar-value">{{ lang.FormatNumber 0 $v }}</span>
+      </div>
+      {{ end }}
+    </div>
+  </div>
+
+  <h2>Downloads by operating system <small>(since 2010)</small></h2>
+  <div class="stats-panel">
+    <div class="bars">
+      {{ with $all.oses }}
+      {{ range . }}
+      {{- $v := index . 1 -}}
+      {{- $pct := 0 -}}
+      {{- if gt $osTotal 0 }}{{ $pct = mul 100 (div (float $v) (float $osTotal)) }}{{ end -}}
+      <div class="bar-row">
+        <span class="bar-label">{{ index . 0 }}</span>
+        <span class="bar-track"><span class="bar-fill" style="width: {{ printf "%.1f" $pct }}%"></span></span>
+        <span class="bar-value">{{ lang.FormatNumber 0 $v }}</span>
+      </div>
+      {{ end }}
+      {{ end }}
+    </div>
+  </div>
+
+  <h2>Downloads by country <small>(since 2010)</small></h2>
+  <div class="stats-panel">
+    <div class="stats-table-wrap">
+      <table class="stats-table">
+        <thead>
+          <tr>
+            <th class="num">#</th>
+            <th>Country</th>
+            <th class="num">Downloads</th>
+            <th class="num">Share</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{ $rank := 0 }}
+          {{ range $all.countries }}
+          {{- $rank = add $rank 1 -}}
+          {{- $v := index . 1 -}}
+          {{- $pct := 0 -}}
+          {{- if gt $countryTotal 0 }}{{ $pct = mul 100 (div (float $v) (float $countryTotal)) }}{{ end -}}
+          <tr>
+            <td class="num">{{ $rank }}</td>
+            <td>{{ index . 0 }}</td>
+            <td class="num">{{ lang.FormatNumber 0 $v }}</td>
+            <td class="num">{{ printf "%.1f" $pct }}%</td>
+          </tr>
+          {{ end }}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h2>Operating systems by country <small>(since 2010, top 15 countries)</small></h2>
+  <div class="stats-panel">
+    <div class="stats-table-wrap">
+      <table class="stats-table stats-matrix">
+        <thead>
+          <tr>
+            <th>Country</th>
+            {{ range $all.oses_with_downloads }}
+            <th class="num">{{ . }}</th>
+            {{ end }}
+          </tr>
+        </thead>
+        <tbody>
+          {{ range first 15 $all.countries }}
+          {{- $countryName := index . 0 -}}
+          {{- $row := index $all.oses_by_country $countryName -}}
+          <tr>
+            <td>{{ $countryName }}</td>
+            {{ range $osName := $all.oses_with_downloads }}
+            <td class="num">{{ with $row }}{{ with (index . $osName) }}{{ lang.FormatNumber 0 . }}{{ else }}–{{ end }}{{ else }}–{{ end }}</td>
+            {{ end }}
+          </tr>
+          {{ end }}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <p class="stats-note">
+    Counts include mirrors and are provided by
+    <a href="https://sourceforge.net/projects/jmt/files/stats" target="_blank" rel="noopener">SourceForge</a>
+    (project id 163838) through the
+    <a href="https://sourceforge.net/p/forge/documentation/Download%20Stats%20API/" target="_blank" rel="noopener">Download Stats API</a>{{ with $all.stats_updated }}; updated {{ . }}{{ end }}.
+    Window: {{ with $all.start_date }}{{ . }}{{ end }} → {{ with $all.end_date }}{{ . }}{{ end }} (UTC), period: {{ with $all.period }}{{ . }}{{ end }}{{ with $all.last_period_incomplete }}; the current period is still in progress{{ end }}.
+    {{ with $all.messages }}{{ range . }}{{ . }} {{ end }}{{ end }}
+    OS and country breakdowns are available since 2010-02-01.
+  </p>
+
+  {{ else }}
+
+  <p class="stats-note">Download statistics are temporarily unavailable (the SourceForge statistics service could not be reached at build time).</p>
+
+  {{ end }}
+
+  {{ if eq $mode "summary" }}
+  <p class="stats-note"><a href="{{ relURL "statistics" }}">View the complete statistics page →</a></p>
+  {{ end }}
+</section>

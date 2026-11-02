@@ -425,6 +425,60 @@ h1, h2, h3, h4 { line-height: 1.25; color: var(--teal-900); }
   font-variant-numeric: tabular-nums;
 }
 
+/* Full statistics page */
+
+.stats-full h2 {
+  margin: 1.75rem 0 0.9rem;
+  font-size: 1.15rem;
+}
+.stats-full h2:first-of-type { margin-top: 0; }
+.stats-full h2 small { font-weight: 400; color: var(--ink-soft); }
+
+.stats-table-wrap {
+  max-height: 460px;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--white);
+}
+
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.stats-table th,
+.stats-table td {
+  padding: 0.38rem 0.7rem;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.stats-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--teal-50);
+  color: var(--teal-900);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.stats-table tbody tr:hover { background: var(--teal-50); }
+.stats-table tbody tr:last-child td { border-bottom: 0; }
+
+.stats-table .num,
+.stats-table th.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.stats-matrix td.num { text-align: center; }
+.stats-matrix th.num { text-align: center; }
+
 /* ---------- Footer ---------- */
 
 .site-footer {
