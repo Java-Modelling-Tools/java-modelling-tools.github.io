@@ -39,6 +39,8 @@ Modelling Tools before installing a new release.
 
 </div>
 
+{{< release-stats >}}
+
 ## License
 
 See license information in the [License page](/license/).

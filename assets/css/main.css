@@ -270,6 +270,93 @@ h1, h2, h3, h4 { line-height: 1.25; color: var(--teal-900); }
 }
 .gallery figure:hover { border-color: var(--teal-500); }
 
+/* ---------- Badges ---------- */
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem 2.5rem;
+  padding: 1.1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.badge-group { display: flex; flex-direction: column; gap: 0.5rem; }
+
+.badge-group-title {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+}
+
+.badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.badge-row a {
+  display: inline-flex;
+  line-height: 0;
+  border-radius: 6px;
+}
+.badge-row a:hover { opacity: 0.85; }
+.badge-row img { height: 22px; width: auto; }
+
+/* ---------- Release statistics ---------- */
+
+.release-stats {
+  margin-top: 2.5rem;
+  padding: 1.5rem 1.25rem;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.release-stats h2 {
+  margin: 0 0 1rem;
+  font-size: 1.25rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.9rem 1rem;
+  background: var(--teal-50);
+  border: 1px solid var(--teal-100);
+  border-radius: var(--radius);
+}
+
+.stat strong {
+  font-size: 1.6rem;
+  color: var(--teal-900);
+  line-height: 1.1;
+}
+
+.stat span { font-size: 0.85rem; color: var(--ink-soft); }
+.stat small { font-size: 0.75rem; }
+
+.stats-note {
+  margin: 1rem 0 0;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
 /* ---------- Footer ---------- */
 
 .site-footer {

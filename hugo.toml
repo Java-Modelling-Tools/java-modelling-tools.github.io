@@ -14,6 +14,24 @@ disableKinds = ['taxonomy', 'term', 'RSS']
   githubOrg = 'https://github.com/Java-Modelling-Tools'
   githubRepo = 'https://github.com/Java-Modelling-Tools/jmt'
 
+[params.badges]
+  # GitHub shields badges. While the jmt repository is private, these render
+  # "repo not found"; they light up automatically once it is made public.
+  # Set to false to hide them until then.
+  enableGithub = true
+
+[params.releaseStats]
+  # SourceForge download statistics shown on the Download page. Hugo fetches
+  # them from the SourceForge stats JSON API at build time, so the counts
+  # refresh on every deploy. The SourceForge project id is 163838.
+  version = '1.5.0'
+  folder = 'jmt/JMT-1.5.0'
+  # Start of the stats window: the project registration date for the
+  # all-time/jmt totals, and the current release date for the release total
+  # (the API rejects start dates older than the release folder itself).
+  since = '2006-03-28'
+  releaseSince = '2026-11-01'
+
 [menu]
 [[menu.main]]
   name = 'Home'

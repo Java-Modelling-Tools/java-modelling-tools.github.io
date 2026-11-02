@@ -34,6 +34,21 @@ hugo --minify --gc   # production build into public/
 - Navigation is configured in `hugo.toml` (`[menu] main`)
 - Styling is in `assets/css/main.css`
 
+## Badges and download statistics
+
+- **Home page badges** (`layouts/partials/badges.html`): the four SourceForge
+  community awards are hardcoded image URLs; the GitHub shields badges (stars,
+  forks, contributors, issues, latest release, license) are toggled by
+  `params.badges.enableGithub` in `hugo.toml`. They render "repo not found"
+  while the `jmt` repository is private and light up automatically once it is
+  public.
+- **Download statistics** (`layouts/partials/release-stats.html`): Hugo fetches
+  download counts from the SourceForge stats JSON API at *build time* and
+  renders all-time, last-30-days and current-release totals plus the top OS
+  and country. If the API is unreachable the build still succeeds and a note
+  is shown instead. When a new release ships, update `params.releaseStats`
+  (`version`, `folder`, `releaseSince`) in `hugo.toml`.
+
 ## Deployment
 
 Every push to `main` triggers `.github/workflows/pages.yml`, which builds the

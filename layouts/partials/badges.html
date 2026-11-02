@@ -1,0 +1,48 @@
+{{/* Project badges: SourceForge community awards + GitHub shields. */}}
+{{- $sf := "https://sourceforge.net/projects/jmt/" -}}
+{{- $repo := .Site.Params.githubRepo -}}
+<section class="badges" aria-label="Project badges">
+  <div class="badge-group">
+    <h2 class="badge-group-title">SourceForge awards</h2>
+    <div class="badge-row">
+      <a href="{{ $sf }}?pk_campaign=badge&pk_source=vendor" target="_blank" rel="noopener">
+        <img src="https://b.sf-syn.com/badge_img/163838/oss-users-love-us-white" alt="SourceForge: Users Love Us" loading="lazy">
+      </a>
+      <a href="{{ $sf }}?pk_campaign=badge&pk_source=vendor" target="_blank" rel="noopener">
+        <img src="https://b.sf-syn.com/badge_img/163838/oss-community-choice-white?achievement=oss-community-choice" alt="SourceForge: Open Source Community Choice" loading="lazy">
+      </a>
+      <a href="{{ $sf }}?pk_campaign=badge&pk_source=vendor" target="_blank" rel="noopener">
+        <img src="https://b.sf-syn.com/badge_img/163838/oss-community-leader-white?achievement=oss-community-leader" alt="SourceForge: Open Source Community Leader" loading="lazy">
+      </a>
+      <a href="{{ $sf }}?pk_campaign=badge&pk_source=vendor" target="_blank" rel="noopener">
+        <img src="https://b.sf-syn.com/badge_img/163838/oss-open-source-excellence-white?achievement=oss-open-source-excellence" alt="SourceForge: Open Source Excellence" loading="lazy">
+      </a>
+    </div>
+  </div>
+
+  {{ if .Site.Params.badges.enableGithub }}
+  <div class="badge-group">
+    <h2 class="badge-group-title">GitHub</h2>
+    <div class="badge-row">
+      <a href="{{ $repo }}/stargazers" target="_blank" rel="noopener">
+        <img src="https://img.shields.io/github/stars/Java-Modelling-Tools/jmt?style=flat-square" alt="GitHub stars" loading="lazy">
+      </a>
+      <a href="{{ $repo }}/forks" target="_blank" rel="noopener">
+        <img src="https://img.shields.io/github/forks/Java-Modelling-Tools/jmt?style=flat-square" alt="GitHub forks" loading="lazy">
+      </a>
+      <a href="{{ $repo }}/graphs/contributors" target="_blank" rel="noopener">
+        <img src="https://img.shields.io/github/contributors/Java-Modelling-Tools/jmt?style=flat-square" alt="GitHub contributors" loading="lazy">
+      </a>
+      <a href="{{ $repo }}/issues" target="_blank" rel="noopener">
+        <img src="https://img.shields.io/github/issues/Java-Modelling-Tools/jmt?style=flat-square" alt="GitHub open issues" loading="lazy">
+      </a>
+      <a href="{{ $repo }}/releases" target="_blank" rel="noopener">
+        <img src="https://img.shields.io/github/v/release/Java-Modelling-Tools/jmt?style=flat-square" alt="GitHub latest release" loading="lazy">
+      </a>
+      <a href="{{ relURL "license" }}" rel="noopener">
+        <img src="https://img.shields.io/badge/license-GPL--2.0-blue?style=flat-square" alt="License: GPL-2.0" loading="lazy">
+      </a>
+    </div>
+  </div>
+  {{ end }}
+</section>

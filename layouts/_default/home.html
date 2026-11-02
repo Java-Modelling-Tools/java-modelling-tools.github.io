@@ -16,6 +16,8 @@
 </div>
 
 <div class="container">
+  {{ partial "badges.html" . }}
+
   {{ .Content }}
 
   {{ with .Params.tools }}

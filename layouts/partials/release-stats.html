@@ -1,0 +1,75 @@
+{{/*
+  Download statistics fetched at build time from the SourceForge stats API
+  (project id 163838). The build never fails if the API is unreachable:
+  a note is rendered instead.
+*/}}
+{{- $cfg := .Site.Params.releaseStats -}}
+{{- $today := now.Format "2006-01-02" -}}
+{{- $allURL := printf "https://sourceforge.net/projects/jmt/files/stats/json?start_date=%s&end_date=%s" $cfg.since $today -}}
+{{- $jmtURL := printf "https://sourceforge.net/projects/jmt/files/jmt/stats/json?start_date=%s&end_date=%s" $cfg.since $today -}}
+{{- $relURL := printf "https://sourceforge.net/projects/jmt/files/%s/stats/json?start_date=%s&end_date=%s" $cfg.folder $cfg.releaseSince $today -}}
+
+{{- $all := dict -}}
+{{- $jmt := dict -}}
+{{- $rel := dict -}}
+{{- $ok := false -}}
+
+{{- with try (resources.GetRemote $allURL) -}}
+  {{- with .Value -}}
+    {{- $all = .Content | transform.Unmarshal -}}
+    {{- $ok = true -}}
+  {{- end -}}
+{{- end -}}
+
+{{- with try (resources.GetRemote $jmtURL) -}}
+  {{- with .Value -}}
+    {{- $jmt = .Content | transform.Unmarshal -}}
+  {{- end -}}
+{{- end -}}
+
+{{- with try (resources.GetRemote $relURL) -}}
+  {{- with .Value -}}
+    {{- $rel = .Content | transform.Unmarshal -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $last30 := 0 -}}
+{{- with $jmt.downloads -}}
+  {{- range last 30 . -}}
+    {{- $last30 = add $last30 (index . 1) -}}
+  {{- end -}}
+{{- end -}}
+
+<section class="release-stats">
+  <h2>Download statistics</h2>
+  {{ if $ok }}
+  <div class="stats-grid">
+    <div class="stat">
+      <strong>{{ lang.FormatNumber 0 $all.total }}</strong>
+      <span>all-time downloads <small>(since 2006)</small></span>
+    </div>
+    <div class="stat">
+      <strong>{{ lang.FormatNumber 0 $last30 }}</strong>
+      <span>downloads in the last 30 days</span>
+    </div>
+    <div class="stat">
+      <strong>{{ with $rel }}{{ with .total }}{{ lang.FormatNumber 0 . }}{{ else }}0{{ end }}{{ else }}n/a{{ end }}</strong>
+      <span>downloads of JMT {{ $cfg.version }}</span>
+    </div>
+    <div class="stat">
+      <strong>{{ with $all.summaries.os }}{{ .top }} {{ .percent }}%{{ end }}</strong>
+      <span>top operating system <small>(since 2010)</small></span>
+    </div>
+    <div class="stat">
+      <strong>{{ with $all.summaries.geo }}{{ .top }} {{ .percent }}%{{ end }}</strong>
+      <span>top country <small>(since 2010)</small></span>
+    </div>
+  </div>
+  <p class="stats-note">
+    Counts include mirrors and are provided by
+    <a href="https://sourceforge.net/projects/jmt/files/stats" target="_blank" rel="noopener">SourceForge</a>{{ with $all.stats_updated }} (updated {{ . }}){{ end }}. The current month is still in progress.
+  </p>
+  {{ else }}
+  <p class="stats-note">Download statistics are temporarily unavailable (the SourceForge statistics service could not be reached at build time).</p>
+  {{ end }}
+</section>
