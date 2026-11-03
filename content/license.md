@@ -3,10 +3,20 @@ title: "License"
 description: "Java Modelling Tools is free software released under the GNU General Public License version 2."
 ---
 
-Java Modelling Tools is free software; you can redistribute it and/or modify
-it under the terms of the
-[GNU General Public License](http://www.gnu.org/copyleft/gpl.html) as
-published by the Free Software Foundation.
+## Contributors and third-party contributions
+
+JMT is developed and maintained through contributions from researchers, developers, and external collaborators.
+
+We gratefully acknowledge all individuals and institutions that have contributed to the development of Java Modelling Tools.
+
+Contributions to JMT are distributed under the project's GNU General Public License, version 2 (GPL-2.0), unless otherwise specified. Copyright remains with the respective authors or copyright holders.
+[GNU General Public License](http://www.gnu.org/copyleft/gpl.html) as published by the Free Software Foundation.
+
+### Third-party software
+
+JMT incorporates third-party libraries and software components. These retain their original copyright notices and are distributed under their respective licenses.
+
+A list of third-party components, their copyright holders, and applicable licenses is provided below. The corresponding license texts are included in the source distribution.
 
 ## GNU General Public License
 
