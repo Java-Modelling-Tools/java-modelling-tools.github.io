@@ -5,7 +5,7 @@ screenshots:
   - thumb: "/img/sshots/jmch1s.png"
     full: "/img/sshots/jmch-01.png"
     caption: "M/M/1 model"
-  - thumb: "/img/sshots/jmch2s.png"
+  - thumb: "/img/sshots/jmch2.png"
     full: "/img/sshots/jmch2.png"
     caption: "M/M/1/k model"
 ---
